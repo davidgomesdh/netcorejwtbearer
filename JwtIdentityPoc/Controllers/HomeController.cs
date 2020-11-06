@@ -36,15 +36,19 @@ namespace JwtIdentityPoc.Controllers
 
             // Gera o Token
             var token = TokenService.GenerateToken(user);
-
+            DateTime Created = DateTime.Now;
             // Oculta a senha
             user.Password = "";
 
             // Retorna os dados
             return new
             {
-                user = user,
-                token = token
+                Authenticated = true,
+                User = user,
+                AccessToken = token,
+                Created = Created,
+                Expiration = Created.AddMinutes(2),
+                Message = "Token gerado com sucesso"
             };
         }
 

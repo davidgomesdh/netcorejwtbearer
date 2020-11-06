@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc\\JwtIdentityPoc\\JwtIdentityPoc.csproj": {}
+    "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc - Copia\\netcorejwtbearer\\JwtIdentityPoc\\JwtIdentityPoc.csproj": {}
   },
   "projects": {
-    "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc\\JwtIdentityPoc\\JwtIdentityPoc.csproj": {
+    "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc - Copia\\netcorejwtbearer\\JwtIdentityPoc\\JwtIdentityPoc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc\\JwtIdentityPoc\\JwtIdentityPoc.csproj",
+        "projectUniqueName": "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc - Copia\\netcorejwtbearer\\JwtIdentityPoc\\JwtIdentityPoc.csproj",
         "projectName": "JwtIdentityPoc",
-        "projectPath": "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc\\JwtIdentityPoc\\JwtIdentityPoc.csproj",
+        "projectPath": "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc - Copia\\netcorejwtbearer\\JwtIdentityPoc\\JwtIdentityPoc.csproj",
         "packagesPath": "C:\\Users\\david.santos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc\\JwtIdentityPoc\\obj\\",
+        "outputPath": "C:\\Users\\david.santos\\source\\repos\\JwtIdentityPoc - Copia\\netcorejwtbearer\\JwtIdentityPoc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
