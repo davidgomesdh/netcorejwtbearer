@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using JwtIdentityPoc.Models;
@@ -19,6 +20,39 @@ namespace JwtIdentityPoc.Controllers
         public string teste()
         {
             return "funcionou";
+        }
+
+        [HttpPost]
+        [Route("usuario")]
+        [Authorize(Roles = "manager")]
+        public async Task<ActionResult<dynamic>> Usuario([FromBody]User model)
+        {
+            string _connString = "Server=(localdb)\\mssqllocaldb;Database=JwtIdentityPocContext-d1d9cd27-fffa-4963-a184-7dbf51773045;Trusted_Connection=True;MultipleActiveResultSets=true";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connString))
+                {
+                    
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        connection.Open();
+                        command.Connection = connection;
+                        //command.Parameters.AddWithValue("@Username", );
+                        //command.Parameters.AddWithValue("@Password",model.Password);
+                        //command.Parameters.AddWithValue("@Role", model.Role);
+                        command.CommandText = "INSERT INTO [dbo].[User] (Username, Password, Role) VALUES ('"+ model.Username + "', '"+model.Password+"', '"+model.Role+"')";
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            // Retorna os dados
+            return new { message = "Usuario criado" };
         }
 
 
