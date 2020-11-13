@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using JwtIdentityPoc.Models;
-using JwtIdentityPoc.Repositories;
 using JwtIdentityPoc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +31,7 @@ namespace JwtIdentityPoc.Controllers
             {
                 using (SqlConnection connection = new SqlConnection(_connString))
                 {
-                    
+
                     using (SqlCommand command = new SqlCommand())
                     {
                         connection.Open();
@@ -40,7 +39,7 @@ namespace JwtIdentityPoc.Controllers
                         //command.Parameters.AddWithValue("@Username", );
                         //command.Parameters.AddWithValue("@Password",model.Password);
                         //command.Parameters.AddWithValue("@Role", model.Role);
-                        command.CommandText = "INSERT INTO [dbo].[User] (Username, Password, Role) VALUES ('"+ model.Username + "', '"+model.Password+"', '"+model.Role+"')";
+                        command.CommandText = "INSERT INTO [dbo].[User] (Username, Password, Role) VALUES ('" + model.Username + "', '" + model.Password + "', '" + model.Role + "')";
                         command.ExecuteNonQuery();
                         connection.Close();
                     }
@@ -62,23 +61,53 @@ namespace JwtIdentityPoc.Controllers
         public async Task<ActionResult<dynamic>> Authenticate([FromBody]User model)
         {
             // Recupera o usuário
-            var user = UserRepository.Get(model.Username, model.Password);
+            var users = new List<User>();
+
+                string _connString = "Server=(localdb)\\mssqllocaldb;Database=JwtIdentityPocContext-d1d9cd27-fffa-4963-a184-7dbf51773045;Trusted_Connection=True;MultipleActiveResultSets=true";
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(_connString))
+                    {
+                        using (SqlCommand command = new SqlCommand())
+                        {
+
+                            command.Connection = connection;
+                            command.CommandText = "Select * From [dbo].[User] where Username = '"+model.Username+"' and Password = '"+model.Password+"' ";
+                            connection.Open();
+                            using (var READER = command.ExecuteReader())
+                            {
+                                if (READER.HasRows)
+                                {
+                                    while (READER.Read())
+                                    {
+                                        users.Add(new User { Id = 1, Username = READER["Username"].ToString(), Password = READER["Password"].ToString(), Role = READER["Role"].ToString() });
+                                    }
+                                }
+                            }
+                            connection.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
 
             // Verifica se o usuário existe
-            if (user == null)
+            if (users.Count<1)
                 return NotFound(new { message = "Usuário ou senha inválidos" });
 
             // Gera o Token
-            var token = TokenService.GenerateToken(user);
+            var token = TokenService.GenerateToken(users[0]);
             DateTime Created = DateTime.Now;
             // Oculta a senha
-            user.Password = "";
+            users[0].Password = "";
 
             // Retorna os dados
             return new
             {
                 Authenticated = true,
-                User = user,
+                User = users[0],
                 AccessToken = token,
                 Created = Created,
                 Expiration = Created.AddMinutes(2),
